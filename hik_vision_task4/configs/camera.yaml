@@ -1,0 +1,36 @@
+%YAML:1.0
+# ==========================================================================
+# 相机配置（对应讲义 3.3）
+#   camera_name: hikrobot -> 海康 MVS 后端；opencv -> /dev/videoN；video -> 视频文件
+#   上机前先 lsusb 确认相机 VID:PID，默认海康 USB3 相机为 2bdf:0001
+# ==========================================================================
+camera_name: "hikrobot"
+
+# 曝光（毫秒）。驱动内部 *1000 转微秒。运动场景优先缩短曝光，再靠增益补亮
+exposure_ms: 3.0
+
+# 增益（dB）。越大越亮，噪声也越大；一般 0~20 之间
+gain: 10.0
+
+# USB 设备 VID:PID（十六进制），lsusb 里形如 ID 2bdf:0001
+vid_pid: "2bdf:0001"
+
+# 分辨率，0 表示用相机默认值（改宽高可能同时需要改 OffsetX/OffsetY）
+width: 0
+height: 0
+
+# 帧率，0 表示不主动设置
+fps: 0.0
+
+# 像素格式：BayerRG8 / BayerGR8 / BayerGB8 / BayerBG8 / Mono8 / RGB8 / BGR8 / YUYV
+pixel_format: "BayerRG8"
+
+# 仅 opencv 后端使用：摄像头编号 0 -> /dev/video0
+device_index: 0
+
+# 仅 video 后端使用：视频文件路径
+video_file: ""
+
+# 画面翻转（相机倒装时用）
+flip_horizontal: 0
+flip_vertical: 0

@@ -1,0 +1,28 @@
+%YAML:1.0
+# ==========================================================================
+# 圆点标定板参数（对应讲义 4.3）
+#   pattern_cols × pattern_rows 是"圆点个数"，不是方格数
+#   必须和手里的标定板一致！参考仓库里 capture.cpp 写死 10×7，
+#   拿到板子后先数一遍，再改这里
+# ==========================================================================
+pattern_cols: 10
+pattern_rows: 7
+
+# 相邻圆心实际距离（毫米），用卡尺量两三个间距取平均，别直接抄
+center_distance_mm: 25.0
+
+# symmetric = 普通矩形阵列；asymmetric = 交错阵列（如 4×11）
+pattern_type: "symmetric"
+
+# 圆心亚像素精化 / 先做 CLAHE 抗光照不均
+subpixel: 1
+clahe: 1
+
+# 透传给 cv::calibrateCamera 的 flags，0 = 默认（估计 fx,fy,cx,cy,k1,k2,p1,p2,k3）
+flags: 0
+
+# 平均重投影误差超过这个值就提示剔除坏图（单位：像素）
+max_reproj_error: 1.0
+
+# 标定结果输出路径
+output: "configs/camera_intrinsics.yaml"

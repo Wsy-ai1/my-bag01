@@ -1,0 +1,19 @@
+%YAML:1.0
+# ==========================================================================
+# 视频回放后端：没有相机也能测取图/显示/帧率/标定整条链路
+#   把 video_file 改成你自己的视频，然后：
+#   ./build/camera_test --config-path=configs/camera_video.yaml --frames 300
+# 说明：视频首帧会被读走用于探测分辨率，因此实际从第 2 帧开始取。
+# ==========================================================================
+camera_name: "video"
+exposure_ms: 3.0
+gain: 10.0
+vid_pid: "2bdf:0001"
+width: 0
+height: 0
+fps: 0
+pixel_format: "BGR8"
+device_index: 0
+video_file: "assets/demo.mp4"
+flip_horizontal: 0
+flip_vertical: 0
