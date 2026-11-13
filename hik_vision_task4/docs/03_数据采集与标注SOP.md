@@ -86,6 +86,37 @@ python3 tools/prelabel.py --images data/wsy_s01 --mode otsu
 
 粗标只是为了省时间，**最终每个框都要人眼过一遍**。
 
+### 粗标没框 / 打开后看不到框？先分清三种情况
+
+1. **看的是 PNG 原图** → 脚本不改图片，只写同名 `.json`；框要在 X-AnyLabeling 里 `File → Open Dir` 才看得到
+2. **json 里 `shapes` 是空的** → 检测失败，按下面的表调参
+3. **json 有框但软件不显示** → 图片和 json 必须同名同目录；打开的是"目录"不是单文件
+
+快速确认某张图到底标了几个框（在项目根目录执行）：
+
+```bash
+python3 - <<'EOF'
+import json, glob
+f = sorted(glob.glob("data/wsy_s01/*.json"))[0]
+d = json.load(open(f))
+print(f, "->", len(d["shapes"]), "个框")
+EOF
+```
+
+若结果是 0，按顺序试（每次只跑 2~3 张，几秒出结果）：
+
+| 症状 | 参数 |
+| --- | --- |
+| 目标比背景**亮**（浅色能量单元 + 深色桌面） | `--invert` |
+| 目标是彩色的 | `--mode hsv` |
+| 目标和背景颜色接近、但有明显边 | `--mode edge` |
+| 光照不均 / 有阴影 | `--mode adaptive` |
+| 目标在画面里很小（远距离） | `--min-area 0.0001 --min-aspect 0.1 --max-aspect 10` |
+| 想知道二值图长什么样 | `--debug-dir output/prelabel`，看 `*_mask.png` |
+| 以前跑过、json 已存在被跳过 | 加 `--overwrite` |
+
+脚本会逐张打印 `文件名: N 个框 (mask x%)`；某个文件 mask 覆盖率 > 60% 基本可判定阈值反了（把背景当目标），换 `--invert` 或换模式。
+
 ## 五、质检（打包前必做）
 
 ```bash
