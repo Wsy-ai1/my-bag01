@@ -73,6 +73,24 @@ chmod +x X-AnyLabeling-v4.3.1-Linux-CPU
 
 **质量要求：框要刚好把能量单元包住，不要多留背景，也不要切掉目标本体。**
 
+### 照片是 .tif / .tiff 怎么办
+
+TIFF 能用，但不建议直接标/交：
+
+- X-AnyLabeling 对 **16bit / 多页 TIFF** 支持不稳，容易打不开或画面全黑
+- TIFF 基本不压缩，1280×1024 一张 3~4 MB，1500 张就是 5 GB+
+- 后续转 YOLO 训练也需要 png/jpg
+
+先批量转成 png（顺带把同名 json 里的 `imagePath` 改好）：
+
+```bash
+python3 tools/convert_tiff.py data/wsy_s01 --delete        # 转完删 tif
+python3 tools/convert_tiff.py data --recursive --delete    # 整个 data 递归处理
+```
+
+16bit 图默认按 1%~99% 分位拉伸到 8bit（不然会一片黑）；想保留绝对亮度用 `--no-stretch`。
+转完再跑 `prelabel.py`，框坐标完全不受影响。
+
 ### 先粗标再人工修（强烈建议）
 
 ```bash

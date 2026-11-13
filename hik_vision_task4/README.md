@@ -33,6 +33,7 @@ hik_vision_task4/
 │   └── undistort_compare.cpp    # 去畸变前后对比图
 ├── tools/
 │   ├── prelabel.py              # OpenCV 粗标 -> X-AnyLabeling JSON
+│   ├── convert_tiff.py          # .tif/.tiff 批量转 png，并修正 json 的 imagePath
 │   ├── dataset_qa.py            # 标注质检（类别/越界/贴边/重复/缺失）
 │   ├── to_yolo.py               # 转 YOLO 数据集
 │   └── package_submission.sh    # 按规范打包 zip
